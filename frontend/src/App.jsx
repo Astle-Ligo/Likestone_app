@@ -1,11 +1,21 @@
-import React from 'react'
+import { useEffect, useState } from "react";
 
-const App = () => {
+function App() {
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/message")
+      .then(res => res.json())
+      .then(data => setMessage(data.message))
+      .catch(err => console.error(err));
+  }, []);
+
   return (
-    <div>
-      <h1 className='text-[red]'>Likestone</h1>
+    <div className="p-6 text-center text-xl">
+      <h1 className="font-bold">Backend says:</h1>
+      <p className="text-[blue]">{message}</p>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
