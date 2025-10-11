@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const staffSchema = new mongoose.Schema(
     {
@@ -34,4 +34,4 @@ const staffSchema = new mongoose.Schema(
 
 
 const Staff = mongoose.model("Staff", staffSchema);
-export default Staff;
+module.exports = Staff;

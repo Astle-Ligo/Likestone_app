@@ -1,8 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-require('dotenv').config();
+
 const connectDB = require('./config/db')
+const StaffRoutes = require("./routes/staffRoutes.js");
 
 // Connect to MongoDB
 connectDB();
@@ -23,6 +25,8 @@ app.use(cors({
 app.get("/api/message", (req, res) => {
     res.json({ message: "Hello from backend!" });
 });
+
+app.use("/api/staff", StaffRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;
