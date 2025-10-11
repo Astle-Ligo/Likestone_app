@@ -1,0 +1,39 @@
+import mongoose from "mongoose";
+
+const employeeSchema = new mongoose.Schema(
+    {
+        name: {
+            type: String,
+            required: [true, "Employee name is required"],
+            trim: true,
+        },
+        phone: {
+            type: String,
+        },
+        address: {
+            type: String,
+        },
+        skillType: {
+            type: String,
+            enum: ["Mason", "Electrician", "Plumber", "Carpenter", "Helper", "Painter", "Supervisor", "Accounts"],
+            default: "Labour",
+        },
+        dailyWage: {
+            type: Number,
+            required: true,
+            default: 0,
+        },
+        totalWagesPaid: {
+            type: Number,
+            default: 0,
+        },
+        isActive: {
+            type: Boolean,
+            default: true,
+        },
+    },
+    { timestamps: true }
+);
+
+const Employee = mongoose.model("Employee", employeeSchema);
+export default Employee;
