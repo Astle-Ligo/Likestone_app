@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+
 
 const Login = () => {
     const [formData, setFormData] = useState({ email: "", password: "" });
@@ -12,7 +14,12 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            loginUser(data);
+            const res = await axios.post(
+                "http://localhost:5000/api/staff/login",
+                formData
+            );
+            const { token } = res.data;
+            localStorage.setItem("token", token); // store token
             navigate("/dashboard");
         } catch (err) {
             setError(err.response?.data?.message || "Login failed");

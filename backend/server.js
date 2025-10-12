@@ -24,11 +24,6 @@ app.use(cors({
     credentials: true,
 }));
 
-// Example route
-app.get("/api/message", (req, res) => {
-    res.json({ message: "Hello from backend!" });
-});
-
 app.use("/api/staff", StaffRoutes);
 app.use("/api/employee", EmployeeRoutes);
 app.use("/api/project", ProjectRoutes);

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
-import DashboardSidebar from "../components/DashboardSidebar";
+import DashboardSidebar from "../components/Dashboard/DashboardSidebar";
+import Navbar from "../components/Navbar/Navbar";
 
 const DashboardLayout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -19,6 +20,7 @@ const DashboardLayout = () => {
                     ${isSidebarOpen ? "ml-[12rem]" : "ml-[5rem]"} 
                     md:ml-[12rem]`}
             >
+                <Navbar />
                 <Outlet />
             </main>
         </div>
