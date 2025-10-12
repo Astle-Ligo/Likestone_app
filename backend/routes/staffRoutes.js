@@ -4,7 +4,7 @@ const { verifyToken, authorizeRoles } = require("../middlewares/authMiddleware.j
 
 const router = express.Router();
 
-router.post("/register", verifyToken, authorizeRoles("Manager"), registerStaff); // Only Manager can register others
+router.post("/register", verifyToken, authorizeRoles("Manager","Admin"), registerStaff); // Only Manager can register others
 router.post("/login", loginStaff);
 
 router.get("/me", verifyToken, (req, res) => {
@@ -12,3 +12,4 @@ router.get("/me", verifyToken, (req, res) => {
 });
 
 module.exports = router;
+        
