@@ -50,4 +50,15 @@ const loginStaff = async (req, res) => {
   }
 };
 
-module.exports = { registerStaff, loginStaff };
+const getCurrentStaff = async (req, res) => {
+  try {
+    const user = await Staff.findById(req.user.id).select("name email role");
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    res.status(200).json({ user });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+module.exports = { registerStaff, loginStaff, getCurrentStaff };

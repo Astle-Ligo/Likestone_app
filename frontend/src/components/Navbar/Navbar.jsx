@@ -16,8 +16,13 @@ const Navbar = () => {
             .get("http://localhost:5000/api/staff/me", {
                 headers: { Authorization: `Bearer ${token}` },
             })
-            .then(res => setUser(res.data))
+            .then(res => {
+                setUser(res.data.user);
+                console.log(res.data.user); // log the actual data returned
+            })
             .catch(err => console.error(err));
+
+
     }, []);
 
     const handleLogout = () => {
@@ -46,7 +51,7 @@ const Navbar = () => {
                     <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md overflow-hidden z-50">
                         <button
                             onClick={handleLogout}
-                            className="w-full text-left px-4 py-2 hover:bg-gray-100 transition"
+                            className="w-full text-left px-4 py-2 hover:bg-gray-100 transition text-red-600"
                         >
                             Logout
                         </button>
