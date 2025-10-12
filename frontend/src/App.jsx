@@ -1,4 +1,8 @@
 import { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -11,10 +15,15 @@ function App() {
   }, []);
 
   return (
-    <div className="p-6 text-center text-xl">
-      <h1 className="font-bold">Backend says:</h1>
-      <p className="text-[blue]">{message}</p>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/dashboard" element={<Dashboard />
+        }
+        />
+      </Routes>
+    </Router>
   );
 }
 
