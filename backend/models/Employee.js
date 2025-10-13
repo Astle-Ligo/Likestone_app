@@ -16,7 +16,7 @@ const employeeSchema = new mongoose.Schema(
         skillType: {
             type: String,
             enum: ["Mason", "Electrician", "Plumber", "Carpenter", "Helper", "Painter", "Supervisor", "Accounts"],
-            default: "Labour",
+            default: "Mason",
         },
         dailyWage: {
             type: Number,
@@ -31,6 +31,21 @@ const employeeSchema = new mongoose.Schema(
             type: Boolean,
             default: true,
         },
+
+        // Addded By Astle
+
+        aadhar: {
+            type: String,
+        },
+        photo: {
+            type: String,
+        },
+        leaveDayCount: {
+            type: Number,
+        },
+        overtime: {
+            type: Number,
+        }
     },
     { timestamps: true }
 );

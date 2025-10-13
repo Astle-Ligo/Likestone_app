@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 const DashboardSidebar = ({ isOpen, setIsOpen }) => {
     const navigate = useNavigate();
-    const location = useLocation(); // to highlight active route
+    const location = useLocation();
 
     const sidebarData = [
         { name: "Dashboard", icon: "LayoutDashboard", path: "/dashboard" },
@@ -13,6 +13,8 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
         { name: "Attendance", icon: "CalendarDays", path: "/attendance" },
         { name: "Projects", icon: "Building", path: "/projects" },
         { name: "Inventory", icon: "Warehouse", path: "/inventory" },
+        { name: "Sub Contract", icon: "FileUser", path: "/sub-contract" },
+        { name: "Vehicle Details", icon: "Truck", path: "/vehicle-details" },
         { name: "Reports", icon: "BarChart3", path: "/reports" },
         { name: "Settings", icon: "Settings", path: "/settings" },
     ];

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Navbar = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -13,12 +14,11 @@ const Navbar = () => {
         if (!token) return;
 
         axios
-            .get("http://localhost:5000/api/staff/me", {
+            .get(`${API_URL}/staff/me`, {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then(res => {
                 setUser(res.data.user);
-                console.log(res.data.user); // log the actual data returned
             })
             .catch(err => console.error(err));
 
