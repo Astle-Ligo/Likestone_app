@@ -2,7 +2,24 @@ const Employee = require("../models/Employee.js");
 
 const addEmployee = async (req, res) => {
   try {
-    const { name, phone, address, skillType, dailyWage } = req.body;
+
+    // Detailes Added by Astle
+
+    const {
+      name,
+      phone,
+      address,
+      skillType,
+      dailyWage,
+      totalWagesPaid,
+      isActive,
+      aadhar,
+      photo,
+      totalWorkingDayCount,
+      leaveDayCount,
+      overtime,
+      dueAmount
+    } = req.body;
 
     const newEmployee = await Employee.create({
       name,
@@ -10,6 +27,14 @@ const addEmployee = async (req, res) => {
       address,
       skillType,
       dailyWage,
+      totalWagesPaid: totalWagesPaid || 0,
+      isActive: isActive !== undefined ? isActive : true,
+      aadhar,
+      photo: photo,
+      totalWorkingDayCount: totalWorkingDayCount || 0,
+      leaveDayCount: leaveDayCount || 0,
+      overtime: overtime || 0,
+      dueAmount: dueAmount || 0
     });
 
     res.status(201).json({
@@ -45,8 +70,36 @@ const getEmployee = async (req, res) => {
 const editEmployee = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, phone, address, skillType, dailyWage } = req.body;
-    const updatedEmployee = await Employee.findByIdAndUpdate(id, { name, phone, address, skillType, dailyWage }, { new: true });
+    const {
+      name,
+      phone,
+      address,
+      skillType,
+      dailyWage,
+      totalWagesPaid,
+      isActive,
+      aadhar,
+      photo,
+      totalWorkingDayCount,
+      leaveDayCount,
+      overtime,
+      dueAmount
+    } = req.body;
+    const updatedEmployee = await Employee.findByIdAndUpdate(id, {
+      name,
+      phone,
+      address,
+      skillType,
+      dailyWage,
+      totalWagesPaid: totalWagesPaid || 0,
+      isActive: isActive !== undefined ? isActive : true,
+      aadhar,
+      photo: photo,
+      totalWorkingDayCount: totalWorkingDayCount || 0,
+      leaveDayCount: leaveDayCount || 0,
+      overtime: overtime || 0,
+      dueAmount: dueAmount || 0
+    }, { new: true });
     if (!updatedEmployee) return res.status(404).json({ message: "Employee not found" });
 
     res.json({ message: "Employee updated successfully", employee: updatedEmployee });
@@ -54,6 +107,21 @@ const editEmployee = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+const patchEditEmployee = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    const updatedEmployee = await Employee.findByIdAndUpdate(id, updateData, { new: true });
+    if (!updatedEmployee) return res.status(404).json({ message: "Employee not found" });
+
+    res.json({ message: "Employee updated successfully", employee: updatedEmployee });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+
+  }
+}
 
 const deleteEmployee = async (req, res) => {
   try {
@@ -71,5 +139,6 @@ module.exports = {
   getAllEmployees,
   getEmployee,
   editEmployee,
+  patchEditEmployee,
   deleteEmployee,
 };

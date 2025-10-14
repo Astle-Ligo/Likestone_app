@@ -4,6 +4,7 @@ const {
   getAllEmployees,
   getEmployee,
   editEmployee,
+  patchEditEmployee,
   deleteEmployee,
 } = require("../controllers/employeeController.js");
 const { verifyToken, authorizeRoles } = require("../middlewares/authMiddleware.js");
@@ -17,6 +18,9 @@ router.get("/:id", verifyToken, authorizeRoles("Admin", "Manager"), getEmployee)
 router.put("/:id", verifyToken, authorizeRoles("Admin", "Manager"), editEmployee);
 router.delete("/:id", verifyToken, authorizeRoles("Admin", "Manager"), deleteEmployee);
 
+// Added by Astle
+router.patch("/:id", verifyToken, authorizeRoles("Admin", "Manager"), patchEditEmployee);
+// changes made :- getEmployees -> getAllEmployees , added a new route getEmployee
+
 module.exports = router;
 
-// changes made :- getEmployees -> getAllEmployees , added a new route getEmployee

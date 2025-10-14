@@ -39,12 +39,23 @@ const employeeSchema = new mongoose.Schema(
         },
         photo: {
             type: String,
+            default: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+        },
+        totalWorkingDayCount: {
+            type: Number,
+            default: 0,
         },
         leaveDayCount: {
             type: Number,
+            default: 0,
         },
         overtime: {
             type: Number,
+            default: 0,
+        },
+        dueAmount: {
+            type: Number,
+            default: 0,
         }
     },
     { timestamps: true }
