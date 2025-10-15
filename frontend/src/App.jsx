@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+
 import Login from "./pages/Login/Signup/Login";
 import Signup from "./pages/Login/Signup/Signup";
 import DashboardHome from "./pages/Dashboard/DashboardHome";
@@ -19,7 +21,7 @@ function App() {
     <Router>
       <Routes>
         {/* 🔹 Layout wrapper for all dashboard pages */}
-        <Route path="/" element={<DashboardLayout />}>
+        <Route path="/" element={<ProtectedRoute> <DashboardLayout /> </ProtectedRoute>}>
           <Route index element={<DashboardHome />} />
           <Route path="dashboard" element={<DashboardHome />} />
           <Route path="employees" element={<EmployeesPage />} />

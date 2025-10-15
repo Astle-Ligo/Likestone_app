@@ -34,7 +34,7 @@ const Navbar = () => {
         <nav className="w-full h-16 bg-white shadow-md flex items-center justify-between px-6">
             {/* Left side: Logo or Title */}
             <div className="flex items-center">
-                <h1 className="text-xl font-bold text-gray-800">Admin Dashboard</h1>
+                <h1 className="text-xl font-bold text-gray-800">{user?.role || "Admin"} Dashboard</h1>
             </div>
 
             {/* Right side: User info and dropdown */}

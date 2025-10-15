@@ -2,8 +2,8 @@ const Project = require("../models/Project.js");
 
 const addProject = async (req, res) => {
   try {
-    const { name, location, clientName , budget, startDate, endDate, status, description, assignedSupervisor, expenses } = req.body;
-    const newProject = await Project.create({ name, location, clientName , budget, startDate, endDate, status, description, assignedSupervisor, expenses });
+    const { name, location, clientName, budget, startDate, endDate, status, description, assignedSupervisor, expenses } = req.body;
+    const newProject = await Project.create({ name, location, clientName, budget, startDate, endDate, status, description, assignedSupervisor, expenses });
     if (!newProject) return res.status(400).json({ message: "Project not created" });
     res.status(201).json({ message: "Project added successfully", newProject });
   } catch (err) {
@@ -11,10 +11,20 @@ const addProject = async (req, res) => {
   }
 };
 
-const getProjects = async (req, res) => {
+const getAllProjects = async (req, res) => {
   try {
     const projects = await Project.find();
     res.status(200).json({ message: "Projects fetched successfully", projects: projects });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const getProject = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const project = await Project.findById(id);
+    res.status(200).json({ message: "Projects fetched successfully", project: project });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -32,7 +42,7 @@ const editProject = async (req, res) => {
   }
 };
 
-const deleteProject = async (req, res) => { 
+const deleteProject = async (req, res) => {
   try {
     const { id } = req.params;
     const deletedProject = await Project.findByIdAndDelete(id);
@@ -45,7 +55,10 @@ const deleteProject = async (req, res) => {
 
 module.exports = {
   addProject,
-  getProjects,
+  getAllProjects,
+  getProject,
   editProject,
   deleteProject,
 };
+
+// Changes Made by Astle :- getProject added , getProjects --> getAllProjects
