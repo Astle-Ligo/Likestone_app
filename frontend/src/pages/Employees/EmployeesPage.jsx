@@ -1,24 +1,47 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-const API_URL = import.meta.env.VITE_API_URL;
-import * as Icons from "lucide-react";
+import toast from "react-hot-toast";
+
 import EmployeeModal from "../../components/Employee/EmployeeModal";
 import EmployeeCard from "../../components/Employee/EmployeeCard";
+import EmployeeHeader from "../../components/Employee/EmployeeHeader";
+import AddEmployeeModal from "../../components/Employee/AddEmployeeModal";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+const skillColors = {
+    Mason: "from-yellow-50 to-yellow-100 border-yellow-300",
+    Electrician: "from-blue-50 to-blue-100 border-blue-300",
+    Plumber: "from-teal-50 to-teal-100 border-teal-300",
+    Carpenter: "from-orange-50 to-orange-100 border-orange-300",
+    Helper: "from-gray-50 to-gray-100 border-gray-300",
+    Painter: "from-pink-50 to-pink-100 border-pink-300",
+    Supervisor: "from-purple-50 to-purple-100 border-purple-300",
+    Accounts: "from-green-50 to-green-100 border-green-300",
+};
 
 const EmployeePage = () => {
     const [employees, setEmployees] = useState([]);
     const [selectedEmp, setSelectedEmp] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [isAdding, setIsAdding] = useState(false);
+    const [showAddModal, setShowAddModal] = useState(false);
+
 
     const handleDelete = async (id) => {
         const token = localStorage.getItem("token");
+        try {
+            const res = await axios.delete(
+                `${API_URL}/employee/${id}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            setSelectedEmp(null);
+            setEmployees(prev => prev.filter(emp => emp._id !== id));
+            toast.success("Succesfully Deleted!!")
+        } catch (error) {
+            toast.error("Failed to Delete!!")
+        }
 
-        const res = await axios.delete(
-            `${API_URL}/employee/${id}`,
-            { headers: { Authorization: `Bearer ${token}` } }
-        );
-        setSelectedEmp(null);
-        setEmployees(prev => prev.filter(emp => emp._id !== id));
     };
 
     const handleToggle = async (id, currentState) => {
@@ -60,10 +83,32 @@ const EmployeePage = () => {
                 prev.map((emp) => (emp._id === updatedEmp._id ? updatedEmp : emp))
             );
             setSelectedEmp(updatedEmp);
+            toast.success("Editing Successfully!!")
         } catch (err) {
             console.log("Error updating employee:", err.message);
+            toast.error("Error Editing")
         }
     };
+
+    const handleAddEmployee = () => setShowAddModal(true);
+
+    const handleAdd = async (newEmp) => {
+        const t = toast.loading("Adding employee...");
+        try {
+            const token = localStorage.getItem("token");
+            const res = await axios.post(`${API_URL}/employee/add`, newEmp, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            const addedEmployee = res.data.employee;
+            setEmployees((prev) => [...prev, addedEmployee]);
+            setShowAddModal(false);
+            toast.success("Employee Added Successfully!!!", { id: t });;
+        } catch (err) {
+            toast.error(" Failed to add employee", { id: t });
+            console.log("Error adding employee:", err.message);
+        }
+    };
+
 
     useEffect(() => {
         const fetchEmployees = async () => {
@@ -83,45 +128,55 @@ const EmployeePage = () => {
         fetchEmployees();
     }, []);
 
+    // Group active employees by skill
+    const activeBySkill = employees
+        .filter(emp => emp.isActive)
+        .reduce((acc, emp) => {
+            if (!acc[emp.skillType]) acc[emp.skillType] = [];
+            acc[emp.skillType].push(emp);
+            return acc;
+        }, {});
+
+    // Collect all inactive employees
+    const inactiveAll = employees.filter(emp => !emp.isActive);
+
+    if (loading)
+        return <div className="text-center mt-20 text-gray-500">Loading...</div>;
+
     return (
         <div className="min-h-screen mt-2 bg-gray-100 flex flex-col">
-            {/* Header Section */}
-            <div className="flex items-center justify-between px-8 py-6 bg-white shadow-sm border-b">
-                <h1 className="text-3xl font-semibold text-gray-800 flex items-center gap-2">
-                    <Icons.Users className="w-8 h-8 text-blue-600" />
-                    Employee Details
-                </h1>
-                <button
-                    onClick={() => window.location.reload()}
-                    className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-                >
-                    <Icons.RefreshCw className="w-5 h-5" /> Refresh
-                </button>
-            </div>
+            <EmployeeHeader onAddClick={() => setShowAddModal(true)} />
 
-            {/* Employee Cards */}
-            <div className="flex-1 p-8">
-                {loading ? (
-                    <div className="text-center text-gray-500 text-lg">Loading...</div>
-                ) : employees.length === 0 ? (
-                    <div className="text-center text-gray-500 text-lg">
-                        No employees found.
+            <div className="flex-1 p-6 space-y-8">
+                {/* Active Employees by Skill */}
+                {Object.keys(activeBySkill).map(skill => (
+                    <div key={skill} className="space-y-4">
+                        <h2 className="text-lg font-semibold text-gray-800">{skill}</h2>
+                        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 rounded-xl border ${skillColors[skill]} bg-white`}>
+                            {activeBySkill[skill].map(emp => (
+                                <EmployeeCard key={emp._id} emp={emp} onClick={setSelectedEmp} />
+                            ))}
+                        </div>
                     </div>
-                ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {employees.map((emp, idx) => (
-                            <EmployeeCard
-                                key={emp._id || idx}
-                                emp={emp}
+                ))}
 
-                                onClick={setSelectedEmp}
-                            />
-                        ))}
+                {/* Inactive Employees */}
+                {inactiveAll.length > 0 && (
+                    <div className="space-y-4">
+                        <h2 className="text-lg font-semibold text-gray-800">Inactive Employees</h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 rounded-xl border border-gray-300 bg-gray-100">
+                            {inactiveAll.map(emp => (
+                                <EmployeeCard key={emp._id} emp={emp} onClick={setSelectedEmp} />
+                            ))}
+                        </div>
                     </div>
                 )}
             </div>
 
-            {/* Employee Modal */}
+            {showAddModal && (
+                <AddEmployeeModal onClose={() => setShowAddModal(false)} onAdd={handleAdd} />
+            )}
+
             {selectedEmp && (
                 <EmployeeModal
                     employee={selectedEmp}

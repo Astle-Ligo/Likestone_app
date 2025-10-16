@@ -107,6 +107,26 @@ const EmployeeModal = ({ employee, onClose, onDelete, onToggleStatus, onSave }) 
                                 )}
                             </div>
 
+                            {/* Gender */}
+                            <div>
+                                <strong>Gender:</strong>{" "}
+                                {isEditing ? (
+                                    <select
+                                        value={editableData.gender}
+                                        onChange={(e) =>
+                                            setEditableData({ ...editableData, gender: e.target.value })
+                                        }
+                                        className="border-b border-gray-300 focus:border-blue-500 outline-none ml-1"
+                                    >
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                ) : (
+                                    <span className="ml-1">{employee.gender}</span>
+                                )}
+                            </div>
+
+
                             <div>
                                 <strong>Phone:</strong>{" "}
                                 {isEditing ? (

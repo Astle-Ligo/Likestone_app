@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
@@ -38,6 +39,53 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
+
+      {/* 🔔 Global Toast Notifications */}
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          // Default styles for all toasts
+          style: {
+            background: "#1f2937", // dark gray (matches dashboard tone)
+            color: "#f9fafb", // light text
+            borderRadius: "12px",
+            padding: "12px 16px",
+            fontSize: "0.95rem",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.25)",
+            border: "1px solid #374151", // subtle border
+          },
+
+          // Success toast
+          success: {
+            duration: 3000,
+            style: {
+              background: "#14532d", // dark green
+              color: "#dcfce7", // pale green text
+              border: "1px solid #22c55e",
+            },
+            iconTheme: {
+              primary: "#22c55e",
+              secondary: "#14532d",
+            },
+          },
+
+          // Error toast
+          error: {
+            duration: 4000,
+            style: {
+              background: "#7f1d1d", // dark red
+              color: "#fee2e2",
+              border: "1px solid #ef4444",
+            },
+            iconTheme: {
+              primary: "#ef4444",
+              secondary: "#7f1d1d",
+            },
+          },
+        }}
+      />
+
     </Router>
   );
 }
