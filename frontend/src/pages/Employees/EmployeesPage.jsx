@@ -1,6 +1,8 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import toast from "react-hot-toast";
+
+import { UserContext } from "../../context/UserContext";
 
 import EmployeeModal from "../../components/Employee/EmployeeModal";
 import EmployeeCard from "../../components/Employee/EmployeeCard";
@@ -26,6 +28,8 @@ const EmployeePage = () => {
     const [loading, setLoading] = useState(true);
     const [isAdding, setIsAdding] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
+
+    const { user, loadingUser } = useContext(UserContext);
 
 
     const handleDelete = async (id) => {
@@ -143,9 +147,11 @@ const EmployeePage = () => {
     if (loading)
         return <div className="text-center mt-20 text-gray-500">Loading...</div>;
 
+    if (loadingUser) return <div>Loading...</div>;
+
     return (
         <div className="min-h-screen mt-2 bg-gray-100 flex flex-col">
-            <EmployeeHeader onAddClick={() => setShowAddModal(true)} />
+            <EmployeeHeader onAddClick={() => setShowAddModal(true)} user={user} />
 
             <div className="flex-1 p-6 space-y-8">
                 {/* Active Employees by Skill */}
@@ -184,6 +190,7 @@ const EmployeePage = () => {
                     onDelete={handleDelete}
                     onToggleStatus={handleToggle}
                     onSave={handleSave}
+                    user={user}
                 />
             )}
         </div>

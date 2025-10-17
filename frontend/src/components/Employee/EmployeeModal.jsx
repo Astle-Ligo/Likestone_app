@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Pen, Check, X, Trash2, ToggleLeft, ToggleRight, Eye, EyeOff } from "lucide-react";
 
-const EmployeeModal = ({ employee, onClose, onDelete, onToggleStatus, onSave }) => {
+const EmployeeModal = ({ employee, onClose, onDelete, onToggleStatus, onSave, user }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editableData, setEditableData] = useState(employee);
     const [showAadhar, setShowAadhar] = useState(false);
@@ -71,12 +71,14 @@ const EmployeeModal = ({ employee, onClose, onDelete, onToggleStatus, onSave }) 
                             ) : (
                                 <>
                                     <h3 className="text-2xl font-bold text-gray-900">{employee.name}</h3>
-                                    <button
-                                        onClick={() => setIsEditing(true)}
-                                        className="text-gray-500 hover:text-gray-700"
-                                    >
-                                        <Pen />
-                                    </button>
+                                    {(user?.role == 'Admin' || user?.role == "Manager") &&
+                                        < button
+                                            onClick={() => setIsEditing(true)}
+                                            className="text-gray-500 hover:text-gray-700"
+                                        >
+                                            <Pen />
+                                        </button>
+                                    }
                                 </>
                             )}
                         </div>
@@ -246,20 +248,22 @@ const EmployeeModal = ({ employee, onClose, onDelete, onToggleStatus, onSave }) 
                         {employee.isActive ? <ToggleRight /> : <ToggleLeft />}
                     </button>
 
-                    <button
-                        onClick={() => {
-                            const confirmed = window.confirm(
-                                `Are you sure you want to delete ${employee.name}?`
-                            );
-                            if (confirmed) onDelete(employee._id);
-                        }}
-                        className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200"
-                    >
-                        <Trash2 /> Delete
-                    </button>
+                    {(user?.role == 'Admin' || user?.role == "Manager") &&
+                        <button
+                            onClick={() => {
+                                const confirmed = window.confirm(
+                                    `Are you sure you want to delete ${employee.name}?`
+                                );
+                                if (confirmed) onDelete(employee._id);
+                            }}
+                            className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200"
+                        >
+                            <Trash2 /> Delete
+                        </button>
+                    }
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
