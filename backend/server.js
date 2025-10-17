@@ -4,10 +4,12 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const connectDB = require('./config/db')
+
 const StaffRoutes = require("./routes/staffRoutes.js");
 const EmployeeRoutes = require("./routes/employeeRoutes.js");
 const ProjectRoutes = require("./routes/projectRoutes.js");
 const AttendanceRoutes = require("./routes/attendanceRoutes.js");
+const InventoryRoutes = require("./routes/inventoryRoutes.js")
 
 // Connect to MongoDB
 connectDB();
@@ -28,6 +30,7 @@ app.use("/api/staff", StaffRoutes);
 app.use("/api/employee", EmployeeRoutes);
 app.use("/api/project", ProjectRoutes);
 app.use("/api/attendance", AttendanceRoutes);
+app.use("/api/inventory", InventoryRoutes)
 
 // Start server
 const PORT = process.env.PORT || 5000;
