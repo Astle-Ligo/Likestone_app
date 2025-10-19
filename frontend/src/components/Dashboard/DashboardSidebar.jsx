@@ -13,6 +13,8 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
         { name: "Attendance", icon: "CalendarDays", path: "/attendance" },
         { name: "Projects", icon: "Building", path: "/projects" },
         { name: "Inventory", icon: "Warehouse", path: "/inventory" },
+        { name: "Suppliers", icon: "Store", path: "/suppliers" },
+        { name: "Purchase", icon: "ShoppingBag", path: "/purchase" },
         { name: "Sub Contract", icon: "FileUser", path: "/sub-contract" },
         { name: "Vehicle Details", icon: "Truck", path: "/vehicle-details" },
         { name: "Reports", icon: "BarChart3", path: "/reports" },
@@ -37,9 +39,9 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
 
     return (
         <div
-            className={`h-screen bg-gray-900 text-white fixed left-0 top-0 transition-all duration-300
+            className={`h-full bg-gray-900 text-white fixed left-0 top-0 transition-all duration-300
                 ${isOpen ? "w-[12rem]" : "w-[5rem]"}
-                md:w-[12rem] overflow-hidden z-50`}
+                md:w-[12rem] z-50 overflow-y-auto overflow-x-hidden`}
         >
             {/* ===== Logo Section ===== */}
             <div className="w-full h-[8rem] bg-red-500 flex flex-col justify-center items-center py-6">

@@ -9,7 +9,9 @@ const StaffRoutes = require("./routes/staffRoutes.js");
 const EmployeeRoutes = require("./routes/employeeRoutes.js");
 const ProjectRoutes = require("./routes/projectRoutes.js");
 const AttendanceRoutes = require("./routes/attendanceRoutes.js");
-const InventoryRoutes = require("./routes/inventoryRoutes.js")
+const InventoryRoutes = require("./routes/inventoryRoutes.js");
+const SupplierRoutes = require("./routes/supplierRoutes.js");
+const purchaseRoutes = require("./routes/purchaseRoutes.js");
 
 // Connect to MongoDB
 connectDB();
@@ -30,7 +32,9 @@ app.use("/api/staff", StaffRoutes);
 app.use("/api/employee", EmployeeRoutes);
 app.use("/api/project", ProjectRoutes);
 app.use("/api/attendance", AttendanceRoutes);
-app.use("/api/inventory", InventoryRoutes)
+app.use("/api/inventory", InventoryRoutes);
+app.use("/api/supplier", SupplierRoutes);
+app.use("/api/purchase", purchaseRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;

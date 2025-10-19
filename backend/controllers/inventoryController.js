@@ -33,12 +33,16 @@ const addInventory = async (req, res) => {
 
 const getAllInventory = async (req, res) => {
     try {
-        const items = await Inventory.find().sort({ createdAt: -1 });
+        const items = await Inventory.find()
+            .populate("category", "name")
+            .populate("supplier", "name phone")
+            .sort({ createdAt: -1 });
         res.json(items);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 };
+
 
 const getInventory = async (req, res) => {
     try {

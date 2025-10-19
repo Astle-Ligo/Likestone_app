@@ -15,6 +15,8 @@ import SettingsPage from "./pages/Settings/SettingsPage";
 import AttendancePage from "./pages/Attendance/AttendancePage";
 import VehicleDetails from "./pages/VehicleDetails/VehicleDetails"
 import SubContract from "./pages/SubContract/SubContract";
+import SuppliersPage from "./pages/Suppliers/SuppliersPage";
+import PurchasePage from "./pages/Purchases/PurchasePage";
 
 function App() {
 
@@ -30,6 +32,8 @@ function App() {
           <Route path="projects" element={<ProjectsPage />} />
           <Route path="vehicle-details" element={<VehicleDetails />} />
           <Route path="sub-contract" element={<SubContract />} />
+          <Route path="suppliers" element={<SuppliersPage />} />
+          <Route path="purchase" element={<PurchasePage />} />
           <Route path="inventory" element={<InventoryPage />} />
           <Route path="reports" element={<ReportsPage />} />
           <Route path="settings" element={<SettingsPage />} />

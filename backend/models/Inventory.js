@@ -1,12 +1,11 @@
 const mongoose = require("mongoose");
 
-
 const inventorySchema = new mongoose.Schema(
     {
         category: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Category",
             required: true,
-            trim: true,
         },
         itemName: {
             type: String,
@@ -14,8 +13,29 @@ const inventorySchema = new mongoose.Schema(
             trim: true,
         },
         supplier: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Supplier",
+        },
+        unit: {
             type: String,
-            trim: true,
+            enum: [
+                "Bag",
+                "Kg",
+                "Ton",
+                "Litre",
+                "Piece",
+                "Box",
+                "Bundle",
+                "Foot",
+                "Meter",
+                "Dozen",
+                "Set",
+                "Sheet",
+                "Packet",
+                "Roll",
+                "Carton"
+            ],
+            required: true,
         },
         quantity: {
             type: Number,
@@ -27,17 +47,27 @@ const inventorySchema = new mongoose.Schema(
             required: true,
             default: 0,
         },
+        totalValue: {
+            type: Number,
+            default: 0,
+        },
         purchaseDate: {
             type: Date,
             required: true,
             default: Date.now,
         },
         billFile: {
-            type: String, // You can store file URL or filename if you add upload later
+            type: String, // future file path or link
         },
     },
     { timestamps: true }
 );
+
+// 🧮 Auto-calculate total value
+inventorySchema.pre("save", function (next) {
+    this.totalValue = this.quantity * this.rate;
+    next();
+});
 
 const Inventory = mongoose.model("Inventory", inventorySchema);
 module.exports = Inventory;

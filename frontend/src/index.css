@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+/* Add in your global CSS (e.g., index.css or tailwind.css) */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
