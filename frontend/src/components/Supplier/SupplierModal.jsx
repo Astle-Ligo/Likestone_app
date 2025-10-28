@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -19,6 +19,22 @@ const SupplierModal = ({ supplier, onClose, refresh }) => {
 
     const isEdit = Boolean(supplier);
 
+    useEffect(() => {
+        if (supplier) {
+            setFormData({
+                name: supplier.name || "",
+                phone: supplier.phone || "",
+                totalPurchases: supplier.totalPurchases || 0,
+                balance: supplier.balance || 0,
+                accountHolderName: supplier.accountDetails?.accountHolderName || "",
+                bankName: supplier.accountDetails?.bankName || "",
+                accountNumber: supplier.accountDetails?.accountNumber || "",
+                ifscCode: supplier.accountDetails?.ifscCode || "",
+                upiId: supplier.accountDetails?.upiId || "",
+            });
+        }
+    }, [supplier]);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -31,11 +47,23 @@ const SupplierModal = ({ supplier, onClose, refresh }) => {
             const token = localStorage.getItem("token");
             const headers = { Authorization: `Bearer ${token}` };
 
+            const payload = {
+                ...formData,
+                accountDetails: {
+                    accountHolderName: formData.accountHolderName,
+                    bankName: formData.bankName,
+                    accountNumber: formData.accountNumber,
+                    ifscCode: formData.ifscCode,
+                    upiId: formData.upiId,
+                },
+            };
+
+
             if (isEdit) {
-                await axios.put(`${API_URL}/supplier/${supplier._id}`, formData, { headers });
+                await axios.put(`${API_URL}/supplier/${supplier._id}`, payload, { headers });
                 toast.success("Supplier updated successfully");
             } else {
-                await axios.post(`${API_URL}/supplier`, formData, { headers });
+                await axios.post(`${API_URL}/supplier`, payload, { headers });
                 toast.success("Supplier added successfully");
             }
 
@@ -44,6 +72,7 @@ const SupplierModal = ({ supplier, onClose, refresh }) => {
         } catch (err) {
             toast.error(err.response?.data?.message || "Error saving supplier");
         }
+
     };
 
     return (

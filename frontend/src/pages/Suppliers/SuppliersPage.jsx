@@ -3,6 +3,7 @@ import axios from "axios";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 import SupplierModal from "../../components/Supplier/SupplierModal";
+import SupplierDetailsModal from "../../components/Supplier/SupplierDetailsModal";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -10,6 +11,7 @@ const SuppliersPage = () => {
     const [suppliers, setSuppliers] = useState([]);
     const [selectedSupplier, setSelectedSupplier] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
 
     // Fetch all suppliers
     const fetchSuppliers = async () => {
@@ -19,6 +21,8 @@ const SuppliersPage = () => {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setSuppliers(res.data);
+            console.log(res.data);
+
         } catch (err) {
             toast.error(err.response?.data?.message || "Failed to fetch suppliers");
         }
@@ -67,6 +71,7 @@ const SuppliersPage = () => {
                             <th className="p-3 text-left">Total Purchases</th>
                             <th className="p-3 text-left">Balance</th>
                             <th className="p-3 text-left">Actions</th>
+                            <th className="p-3 text-left">Account Details</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -99,6 +104,12 @@ const SuppliersPage = () => {
                                             <Trash2 size={18} />
                                         </button>
                                     </td>
+                                    <td className="p-3">
+                                        <button onClick={() => {
+                                            setSelectedSupplier(s);
+                                            setIsAccountModalOpen(true);
+                                        }} className="text-blue-600 hover:text-blue-800 cursor-pointer">View Details</button>
+                                    </td>
                                 </tr>
                             ))
                         ) : (
@@ -119,6 +130,13 @@ const SuppliersPage = () => {
                     refresh={fetchSuppliers}
                 />
             )}
+            {isAccountModalOpen && selectedSupplier && (
+                <SupplierDetailsModal
+                    supplier={selectedSupplier}
+                    onClose={() => setIsAccountModalOpen(false)}
+                />
+            )}
+
         </div>
     );
 };
