@@ -24,19 +24,21 @@ function App() {
     <Router>
       <Routes>
         {/* 🔹 Layout wrapper for all dashboard pages */}
-        <Route path="/" element={<ProtectedRoute> <DashboardLayout /> </ProtectedRoute>}>
-          <Route index element={<DashboardHome />} />
-          <Route path="dashboard" element={<DashboardHome />} />
-          <Route path="employees" element={<EmployeesPage />} />
-          <Route path="attendance" element={<AttendancePage />} />
-          <Route path="projects" element={<ProjectsPage />} />
-          <Route path="vehicle-details" element={<VehicleDetails />} />
-          <Route path="sub-contract" element={<SubContract />} />
-          <Route path="suppliers" element={<SuppliersPage />} />
-          <Route path="purchase" element={<PurchasePage />} />
-          <Route path="inventory" element={<InventoryPage />} />
-          <Route path="reports" element={<ReportsPage />} />
-          <Route path="settings" element={<SettingsPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<DashboardLayout />}>
+            <Route index element={<DashboardHome />} />
+            <Route path="dashboard" element={<DashboardHome />} />
+            <Route path="employees" element={<EmployeesPage />} />
+            <Route path="attendance" element={<AttendancePage />} />
+            <Route path="projects" element={<ProjectsPage />} />
+            <Route path="vehicle-details" element={<VehicleDetails />} />
+            <Route path="sub-contract" element={<SubContract />} />
+            <Route path="suppliers" element={<SuppliersPage />} />
+            <Route path="purchase" element={<PurchasePage />} />
+            <Route path="inventory" element={<InventoryPage />} />
+            <Route path="reports" element={<ReportsPage />} />
+            <Route path="settings" element={<SettingsPage />} />
+          </Route>
         </Route>
 
         {/* 🔹 Auth pages outside the dashboard layout */}
