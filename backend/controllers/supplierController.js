@@ -5,12 +5,14 @@ const addSupplier = async (req, res) => {
         const {
             name,
             phone,
+            category,
             accountDetails
         } = req.body;
 
         const newSupplier = await Supplier.create({
             name,
             phone,
+            category,
             accountDetails,
         });
 
@@ -51,6 +53,7 @@ const editSupplier = async (req, res) => {
         const {
             name,
             phone,
+            category,
             accountDetails,
             totalPurchases,
             totalPaid,
@@ -62,6 +65,7 @@ const editSupplier = async (req, res) => {
             {
                 name,
                 phone,
+                category,
                 accountDetails,
                 totalPurchases,
                 totalPaid,

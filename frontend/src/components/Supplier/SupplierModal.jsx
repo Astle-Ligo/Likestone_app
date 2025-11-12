@@ -8,6 +8,7 @@ const SupplierModal = ({ supplier, onClose, refresh }) => {
     const [formData, setFormData] = useState({
         name: supplier?.name || "",
         phone: supplier?.phone || "",
+        category: supplier?.category || "",
         totalPurchases: supplier?.totalPurchases || 0,
         balance: supplier?.balance || 0,
         accountHolderName: supplier?.accountHolderName || "",
@@ -76,7 +77,9 @@ const SupplierModal = ({ supplier, onClose, refresh }) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div className="fixed inset-0 bg-black/40 bg-opacity-50 flex justify-center items-center z-50"
+            onClick={onClose}
+        >
             <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
                 <h2 className="text-xl font-semibold mb-4">
                     {isEdit ? "Edit Supplier" : "Add Supplier"}
@@ -103,6 +106,18 @@ const SupplierModal = ({ supplier, onClose, refresh }) => {
                                 type="text"
                                 name="phone"
                                 value={formData.phone}
+                                onChange={handleChange}
+                                required
+                                className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium">Category</label>
+                            <input
+                                type="text"
+                                name="category"
+                                value={formData.category}
                                 onChange={handleChange}
                                 required
                                 className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"

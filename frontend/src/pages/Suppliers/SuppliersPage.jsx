@@ -68,6 +68,7 @@ const SuppliersPage = () => {
                         <tr>
                             <th className="p-3 text-left">Name</th>
                             <th className="p-3 text-left">Phone</th>
+                            <th className="p-3 text-left">Category</th>
                             <th className="p-3 text-left">Total Purchases</th>
                             <th className="p-3 text-left">Balance</th>
                             <th className="p-3 text-left">Actions</th>
@@ -83,6 +84,7 @@ const SuppliersPage = () => {
                                 >
                                     <td className="p-3">{s.name}</td>
                                     <td className="p-3">{s.phone}</td>
+                                    <td className="p-3">{s.category||'N/A'}</td>
                                     <td className="p-3">{s.totalPurchases || 0}</td>
                                     <td className="p-3 text-red-600 font-medium">
                                         ₹{s.balance?.toFixed(2) || 0}

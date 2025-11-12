@@ -7,6 +7,7 @@ const SupplierDetailsModal = ({ supplier, onClose }) => {
     const {
         name,
         phone,
+        category,
         totalPurchases,
         balance,
         accountDetails = {},
@@ -38,6 +39,11 @@ const SupplierDetailsModal = ({ supplier, onClose }) => {
                     <div className="flex justify-between">
                         <p className="font-medium text-gray-700">Phone:</p>
                         <p>{phone || "N/A"}</p>
+                    </div>
+
+                    <div className="flex justify-between">
+                        <p className="font-medium text-gray-700">Category:</p>
+                        <p>{category || "N/A"}</p>
                     </div>
 
                     <div className="flex justify-between">

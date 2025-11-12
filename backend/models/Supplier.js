@@ -12,6 +12,10 @@ const supplierSchema = new mongoose.Schema(
             required: true,
             trim: true,
         },
+        category: {
+            type: String,
+            required: true,
+        },
         totalPurchases: {
             type: Number,
             default: 0,
